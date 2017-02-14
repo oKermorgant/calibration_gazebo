@@ -6,7 +6,7 @@ The camera topic can then be used to perform classical OpenCV calibration throug
 
 In order to spawn and move the landmark, launch `roslaunch calibration_gazebo calibration.launch`
 
-This will try to identify the camera link (actually the first link containing 'camera') and spawn the chessboard in front of the camera. Otherwise the chessboard will be spawn at a fixed position. A basic  GUI can then be used to give velocities to the chessboard.
+This will try to identify the camera link (actually the first link containing 'camera') and spawn the chessboard in front of the camera. Otherwise the chessboard will spawn at a fixed position. A basic GUI is then be used to give velocities to the chessboard.
 
 An example can be found by launching `roslaunch calibration_gazebo camera.launch`, that outputs the images on the '/camera/image' topic.
 

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+        
+    <group ns="calibration_gazebo">
+        <param name="use_gui" value="True"/>
+        <!-- Load dummy description for velocities-->
+        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find calibration_gazebo)/sdf/dummy_landmark.urdf"/>
+        <!-- Load joint state publisher  -->
+        <node name="velocity_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+        
+        <!-- Load landmark description for velocities-->
+        <param name="landmark_description" command="$(find xacro)/xacro --inorder $(find calibration_gazebo)/sdf/landmark.xacro"/>
+        
+        <!-- Bridge from velocity to pose -->
+        <node name="landmark_bridge" pkg="calibration_gazebo" type="move_landmark.py"/>
+        
+  </group>
+          
+</launch>

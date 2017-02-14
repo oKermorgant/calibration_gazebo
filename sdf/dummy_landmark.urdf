@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot name="landmark">
+  <joint name="vx">
+    <limit lower="-1" upper="1"/>
+  </joint>
+  <joint name="vy">
+    <limit lower="-1" upper="1"/>
+  </joint>
+  <joint name="vz">
+    <limit lower="-1" upper="1"/>
+  </joint>
+  <joint name="wx">
+    <limit lower="-1" upper="1"/>
+  </joint>
+  <joint name="wy">
+    <limit lower="-1" upper="1"/>
+  </joint>  
+    <joint name="wz">
+    <limit lower="-1" upper="1"/>
+  </joint>  
+</robot>
+ 

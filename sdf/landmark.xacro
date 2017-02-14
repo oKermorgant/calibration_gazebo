@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+
+<robot name="landmark" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <!-- Chessboard cell size -->
+    <xacro:property name="size" value="0.03"/>  
+    
+    <!-- Chessboard size, have to be even numbers -->
+    <xacro:property name="r" value="9"/>  
+    <xacro:property name="c" value="7"/> 
+    
+    <material name="orange">
+        <color rgba="1 0.5 0.01 1"/>
+    </material>
+    
+    <gazebo>
+        <static>true</static>
+    </gazebo>
+    
+    <gazebo reference="back">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+    <!--gazebo reference="white">
+        <material>Gazebo/White</material>
+    </gazebo-->
+    <gazebo reference="black">
+        <material>Gazebo/Black</material>
+    </gazebo>
+    
+    <xacro:property name="d" value="0.001"/> 
+    
+    <!-- home made loop on columns -->
+    <xacro:macro name="loop_c" params="x y color">
+        <!-- white = odd x+y -->
+        <xacro:if value="${(x+y) in [0,2,4,6,8,10,12,14,16,18,20,22,24,26]}">
+            <xacro:if value="${color == 'black'}">
+                <visual>
+                    <origin xyz="${size*(-r/2+0.5+x)} ${size*(-c/2+0.5+y)} ${d/2}"/>
+                    <geometry>
+                        <box size="${size} ${size} ${d}"/>        
+                    </geometry>
+                </visual>
+            </xacro:if>
+        </xacro:if>
+        <!-- black = even x+y  -->
+        <xacro:unless value="${(x+y) in [0,2,4,6,8,10,12,14,16,18,20,22,24,26]}">
+            <xacro:if value="${color == 'white'}">
+                <visual>
+                    <origin xyz="${size*(-r/2+0.5+x)} ${size*(-c/2+0.5+y)} ${d/2}"/>
+                    <geometry>
+                        <box size="${size} ${size} ${d}"/>        
+                    </geometry>
+                </visual>
+            </xacro:if>
+        </xacro:unless>        
+        
+        <xacro:if value="${y}">
+            <xacro:loop_c x="${x}" y="${y-1}" color="${color}"/>
+        </xacro:if>
+    </xacro:macro>
+    
+    <!-- home made loop on rows -->
+    <xacro:macro name="loop_r" params="x color">
+        <!-- loop on columns -->
+        <xacro:loop_c x="${x}" y="${c-1}" color="${color}"/>
+        <xacro:if value="${x}">
+            <xacro:loop_r x="${x-1}" color="${color}"/>
+        </xacro:if>
+    </xacro:macro>
+    
+    
+    <joint name="white" type="fixed">
+        <parent link="back"/>
+        <child link="white"/>
+    </joint>
+    
+    <joint name="black" type="fixed">
+        <parent link="back"/>
+        <child link="black"/>
+    </joint>
+    
+    <link name="back">
+        
+        <!-- Back of the landmark not to mess with small Z offset -->
+        <visual>
+            <origin xyz="0 0 ${3*d/2}"/>
+            <geometry>
+                <box size="${size*(r+2)} ${size*(c+2)} ${d}"/>        
+            </geometry>
+        </visual>        
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>
+    </link>
+    
+    <link name="white">
+        <gazebo reference="white">
+        <material>
+          <ambient>0.23828125 0.20703125 0.16015625 1</ambient>
+          <specular>0.23828125 0.20703125 0.16015625 1</specular>
+          <diffuse>0.23828125 0.20703125 0.16015625 1</diffuse>
+        </material>
+    </gazebo>
+        <!-- Borders -->
+        <visual>
+            <origin xyz="${size*(r/2+0.5)} 0 ${d/2}"/>
+            <geometry>
+                <box size="${size} ${size*(c+2)} ${d}"/>        
+            </geometry>
+        </visual>
+        <visual>
+            <origin xyz="${-size*(r/2+0.5)} 0 ${d/2}"/>
+            <geometry>
+                <box size="${size} ${size*(c+2)} ${d}"/>        
+            </geometry>
+        </visual>
+        <visual>
+            <origin xyz="0 ${size*(c/2+0.5)} ${d/2}"/>
+            <geometry>
+                <box size="${size*(r+2)} ${size} ${d}"/>        
+            </geometry>
+        </visual>
+        <visual>
+            <origin xyz="0 ${-size*(c/2+0.5)} ${d/2}"/>
+            <geometry>
+                <box size="${size*(r+2)} ${size} ${d}"/>        
+            </geometry>
+        </visual>
+        
+        <!-- White cells -->
+        <xacro:loop_r x="${r-1}" color="white"/>
+        
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>   
+    </link>
+    
+    <link name="black">
+        
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <mass value="1"/>
+            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+        </inertial>   
+        
+        <!-- Black cells -->
+        <xacro:loop_r x="${r-1}" color="black"/>
+        
+    </link>
+    
+    
+    
+</robot>
+

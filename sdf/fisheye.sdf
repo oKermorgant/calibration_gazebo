@@ -32,12 +32,6 @@
             <far>100</far>
           </clip>
           <lens>
-              <custom_function>
-  <c1>1.05</c1>
-  <c2>4</c2>
-  <f>1.0</f>
-  <fun>tan</fun>
-</custom_function>
             <type>stereographic</type>
             <scale_to_hfov>true</scale_to_hfov>
             <cutoff_angle>1.5707</cutoff_angle>
@@ -46,14 +40,14 @@
         </camera>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
-              <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+    <!--plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
         <cameraName>camera</cameraName>
         <imageTopicName>image</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
-      </plugin>
+      </plugin-->
       </sensor>
     </link>
   </model>

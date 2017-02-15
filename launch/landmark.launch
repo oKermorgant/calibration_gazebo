@@ -9,7 +9,7 @@
         <node name="velocity_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
         
         <!-- Load landmark description for velocities-->
-        <param name="landmark_description" command="$(find xacro)/xacro --inorder $(find calibration_gazebo)/sdf/landmark.xacro"/>
+        <param name="landmark_file" value="$(find calibration_gazebo)/sdf/landmark.sdf"/>
         
         <!-- Bridge from velocity to pose -->
         <node name="landmark_bridge" pkg="calibration_gazebo" type="move_landmark.py"/>

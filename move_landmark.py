@@ -6,8 +6,9 @@ from gazebo_msgs.srv import SetModelState,SpawnModel
 from gazebo_msgs.msg import LinkStates, ModelState
 from geometry_msgs.msg import Pose
 from sensor_msgs.msg import JointState
-from tf.transformations import quaternion_matrix, translation_matrix,quaternion_from_matrix,euler_matrix
+from tf.transformations import quaternion_matrix, translation_matrix,quaternion_from_matrix,euler_matrix,euler_from_matrix
 from numpy import matrix, array
+from os import system
 
 def Homogeneous(pose):
     R = matrix(quaternion_matrix([pose.orientation.x, pose.orientation.y, pose.orientation.z, pose.orientation.w]))
@@ -76,9 +77,18 @@ if __name__ == '__main__':
     landmark_pose.orientation.x = landmark_pose.orientation.y = landmark_pose.orientation.z = landmark_pose.orientation.w = 1
     M = Homogeneous(listener.pose) * Homogeneous(landmark_pose)
     
-    urdf = rospy.get_param('landmark_description')
-    spawner = rospy.ServiceProxy('/gazebo/spawn_urdf_model', SpawnModel)
-    spawner.call('landmark', urdf, 'landmark', toPoseMsg(M), '')
+    # get XYZ - RPY
+    label = ['x','y','z','R','P','Y']
+    values = list(array(M[:3,3]).flatten()) + list(euler_from_matrix(M))
+    
+    sdf = rospy.get_param('landmark_file')
+    cmd_line = 'rosrun gazebo_ros spawn_model -model landmark -sdf -file ' + sdf
+    for i in xrange(6):
+        cmd_line += ' -' + label[i] + ' ' + str(values[i])
+    system(cmd_line)
+    
+#    spawner = rospy.ServiceProxy('/gazebo/spawn_urdf_model', SpawnModel)
+#    spawner.call('landmark', sdf, 'landmark', toPoseMsg(M), '')
     
     # apply velocity to landmark
     

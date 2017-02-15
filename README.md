@@ -10,6 +10,6 @@ This will try to identify the camera link (actually the first link containing 'c
 
 Two simulated camera examples can be found by launching `roslaunch calibration_gazebo perspective.launch` and `roslaunch calibration_gazebo fisheye.launch`, that outputs the images on the '/camera/image' topic.
 
-The default chessboard dimensions are 8x6 with squares of 0.03 m. They can be changed by editing `landmark.xacro`.
+The default chessboard dimensions are 8x6 with squares of 0.03 m. They can be changed by editing `landmark.sdf.xacro` and running `xacro` to re-generate the `landmark.sdf` file.
 
 Sometimes it may be necessary to add some light in the simulation for the OpenCV detection to work correctly. 

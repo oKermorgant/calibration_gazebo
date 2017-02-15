@@ -2,7 +2,7 @@
 
 <sdf version="1.5" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <model name="landmark">
-        
+          
         <!-- Chessboard cell size -->
         <xacro:property name="size" value="0.03"/>  
         
@@ -115,5 +115,5 @@
             <!-- cycle through (x,y) to draw white or black squares -->
             <xacro:loop_r x="${r-1}"/>        
         </link>
-    </model>
+        </model>
 </sdf>

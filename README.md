@@ -2,6 +2,9 @@ The goal of this package is to allow virtual camera calibration from Gazebo.
 
 A calibration chessboard is spawned inside Gazebo in front of the existing camera, and can be moved in all directions.
 
+Here is a screenshot of a fish-eye calibration procedure, with the simulated image on the left and the landmark velocity commands on the right:
+![alt tag](sdf/screenshot.jpg)
+
 The camera topic can then be used to perform classical OpenCV calibration through the camera_calibration package, or custom calibration if other camera projection models are investigated.
 
 In order to spawn and move the landmark, launch `roslaunch calibration_gazebo landmark.launch`

@@ -20,7 +20,7 @@
           </box>
         </geometry>
       </visual>
-      <!--sensor name="camera" type="wideanglecamera">
+      <sensor name="camera" type="wideanglecamera">
         <camera>
           <horizontal_fov>3.1415</horizontal_fov>
           <image>
@@ -47,7 +47,7 @@
         <imageTopicName>image</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
-      </plugin-->
+      </plugin>
       </sensor>
     </link>
   </model>

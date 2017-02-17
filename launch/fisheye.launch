@@ -11,6 +11,6 @@
     <node name="cam_sp" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-sdf -model camera -file $(find calibration_gazebo)/sdf/fisheye.sdf -x 0 -y 0. -z 3 -R 0.1 -P 0.3" />
     
     <!-- launch camera calibrator  -->
-    <node name="calibrator" pkg="camera_calibration" type="cameracalibrator.py" args="-q 0.03 -s 8x6 image:=/camera/image" output="screen" />
+    <node name="calibrator" pkg="camera_calibration" type="cameracalibrator.py" args="-q 0.03 -s 8x6" output="screen" ns="camera"/>
 
 </launch>

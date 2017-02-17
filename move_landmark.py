@@ -41,11 +41,12 @@ class Listener:
                 # register this link as camera
                 self.cam_link = name
                 self.pose = msg.pose[i]
-                
-                # start listening to velocities
-                self.sub.unregister()
-                self.sub = rospy.Subscriber('joint_states', JointState, self.vel_callback)
                 break 
+            
+    def listenVelocity(self):
+        # start listening to velocities
+        self.sub.unregister()
+        self.sub = rospy.Subscriber('joint_states', JointState, self.vel_callback)
     
     def vel_callback(self, msg):
         self.vel = [dt*v for v in msg.position]
@@ -70,6 +71,8 @@ if __name__ == '__main__':
         print('Found camera link at %s' % listener.cam_link)
     else:
         print('Could not find camera link, spawning landmark at (0,0,0.5)')
+        
+    listener.listenVelocity()
         
     # spawn model aligned at 0.5m in front of camera
     landmark_pose = Pose()

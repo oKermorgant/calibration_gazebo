@@ -4,8 +4,7 @@
 import rospy
 from gazebo_msgs.srv import SetModelState,SpawnModel
 from gazebo_msgs.msg import LinkStates, ModelState
-from geometry_msgs.msg import Pose
-from sensor_msgs.msg import JointState
+from geometry_msgs.msg import Pose, Twist
 from tf.transformations import quaternion_matrix, translation_matrix,quaternion_from_matrix,euler_matrix,euler_from_matrix
 from numpy import matrix, array
 from os import system
@@ -31,7 +30,8 @@ class Listener:
         self.pose.orientation.y = -1
         self.pose.position.z = 0
         self.msg_ok = False  
-        self.vel = [0 for i in range(6)]
+        self.linear = [0,0,0]
+        self.angular = [0,0,0]
         
     def link_callback(self, msg):
         self.msg_ok = True
@@ -46,10 +46,11 @@ class Listener:
     def listenVelocity(self):
         # start listening to velocities
         self.sub.unregister()
-        self.sub = rospy.Subscriber('joint_states', JointState, self.vel_callback)
+        self.sub = rospy.Subscriber('landmark_vel', Twist, self.vel_callback)
     
     def vel_callback(self, msg):
-        self.vel = [dt*v for v in msg.position]
+        self.linear = [self.dt * v for v in [msg.linear.x, msg.linear.y, msg.linear.z]]
+        self.angular = [self.dt * v for v in [msg.angular.x, msg.angular.y, msg.angular.z]]
 
 if __name__ == '__main__':
     
@@ -102,8 +103,8 @@ if __name__ == '__main__':
     
     while not rospy.is_shutdown():
         # homogeneous matrix from velocity
-        R = matrix(euler_matrix(listener.vel[3],listener.vel[4],listener.vel[5]))
-        t = matrix(translation_matrix(listener.vel[:3]))
+        R = matrix(euler_matrix(listener.angular[0], listener.angular[1], listener.angular[2]))
+        t = matrix(translation_matrix(listener.linear))
                 
         M = M * t * R
         

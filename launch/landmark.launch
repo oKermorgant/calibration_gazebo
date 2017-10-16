@@ -3,10 +3,11 @@
         
     <group ns="calibration_gazebo">
         <param name="use_gui" value="True"/>
-        <!-- Load dummy description for velocities-->
-        <param name="robot_description" command="$(find xacro)/xacro --inorder $(find calibration_gazebo)/sdf/dummy_landmark.urdf"/>
-        <!-- Load joint state publisher  -->
-        <node name="velocity_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+        <!-- Run GUI to publish landmark velocity -->
+        <node name="velocity_publisher" pkg="slider_publisher" type="slider_publisher" output="screen" respawn="true">
+            <param name="file" value="$(find slider_publisher)/example/Twist.yaml"/>
+            <remap from="/cmd_vel" to="landmark_vel"/>
+        </node> 
         
         <!-- Load landmark description for velocities-->
         <param name="landmark_file" value="$(find calibration_gazebo)/sdf/landmark.sdf"/>

@@ -63,8 +63,7 @@ if __name__ == '__main__':
     
     count = 0
     while not rospy.is_shutdown() and not listener.msg_ok and count < 100:
-        print count
-        print listener.msg_ok 
+        print(listener.msg_ok)
         count += 1    
         rate.sleep()
         
@@ -87,7 +86,7 @@ if __name__ == '__main__':
     
     sdf = rospy.get_param('landmark_file')
     cmd_line = 'rosrun gazebo_ros spawn_model -model landmark -sdf -file ' + sdf
-    for i in xrange(6):
+    for i in range(6):
         cmd_line += ' -' + label[i] + ' ' + str(values[i])
     system(cmd_line)
     

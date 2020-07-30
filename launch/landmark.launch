@@ -5,7 +5,7 @@
         <param name="use_gui" value="True"/>
         <!-- Run GUI to publish landmark velocity -->
         <node name="velocity_publisher" pkg="slider_publisher" type="slider_publisher" output="screen" respawn="true">
-            <param name="file" value="$(find slider_publisher)/example/Twist.yaml"/>
+            <param name="file" value="$(find slider_publisher)/examples/Twist.yaml"/>
             <remap from="/cmd_vel" to="landmark_vel"/>
         </node> 
         
